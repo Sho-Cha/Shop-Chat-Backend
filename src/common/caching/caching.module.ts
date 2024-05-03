@@ -13,7 +13,7 @@ const redisStore = require('cache-manager-redis-store').redisStore;
                 store: redisStore,
                 host: config.get('REDIS_HOST'),
                 port: config.get('REDIS_PORT'),
-                auth_pass: config.get('REDIS_PASS')
+                auth_pass: config.get('REDIS_PASS'),
             }),
             inject: [ConfigService]
         })
