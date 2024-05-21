@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
 
+/* For run migrations need data source export connection.*/
 export const dataBaseSource = new DataSource({
     type: "postgres",
     host: "localhost",

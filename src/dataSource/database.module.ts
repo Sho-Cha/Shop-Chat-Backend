@@ -7,6 +7,7 @@ import { DataSource } from "typeorm";
 
 @Module({
     imports: [
+        /* For Application connection we are intializing the module in the app.module file and passing the below data base connection..*/
         TypeOrmModule.forRootAsync({
             imports: [ConfigurationModule],
             inject: [ConfigurationService],
