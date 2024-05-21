@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { CacheModule } from '@nestjs/cache-manager';
-import { ConfigService } from '@nestjs/config';
 import { ConfigurationModule } from '../config/config.module';
+import { ConfigurationService } from '../config/config.service';
 const redisStore = require('cache-manager-redis-store').redisStore;
 
 @Global()
@@ -9,13 +9,13 @@ const redisStore = require('cache-manager-redis-store').redisStore;
     imports: [
         CacheModule.registerAsync({
             imports: [ConfigurationModule],
-            useFactory: async (config: ConfigService) => ({
+            useFactory: async (config: ConfigurationService) => ({
                 store: redisStore,
                 host: config.get('REDIS_HOST'),
                 port: config.get('REDIS_PORT'),
                 auth_pass: config.get('REDIS_PASS'),
             }),
-            inject: [ConfigService]
+            inject: [ConfigurationService]
         })
     ],
     exports: [CacheModule]

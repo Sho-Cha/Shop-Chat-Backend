@@ -1,26 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CacheService } from './common/caching/cache.service';
+import { DatabaseModule } from './dataSource/database.module';
 import { ConfigurationModule } from './common/config/config.module';
 import { CachingModule } from './common/caching/caching.module';
-import { CacheService } from './common/caching/cache.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigService } from './common/config/config.service';
-import { join } from 'path';
-import { UsersModule } from './users/users.module';
-import { DataSource } from 'typeorm';
-import { dataSourceOptions } from './dataSource/dataSource';
-
-
+import { ConfigurationService } from './common/config/config.service';
+import { ConfigService } from '@nestjs/config';
 @Module({
-  imports: [ConfigurationModule, CachingModule,
-    TypeOrmModule.forRoot(dataSourceOptions), // DataBase connection
-    UsersModule,
-  ],
+  imports: [CachingModule, ConfigurationModule, DatabaseModule],
   controllers: [AppController],
-  providers: [AppService, CacheService],
-
+  providers: [AppService, ConfigurationService, ConfigService, CacheService],
 })
-export class AppModule {
-  constructor(private dataSource: DataSource) {}
- }
+export class AppModule { }
