@@ -6,10 +6,10 @@ import { User } from 'src/database/entities/user.entity';
 import { UserProfile } from 'src/database/entities/user-profile.entity';
 import { UserPreference } from 'src/database/entities/user-preference.entity';
 import { UserAuth } from 'src/database/entities/user-auth.entity';
-
+import { LoggingModule } from 'src/common/logging/logging.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, UserProfile, UserPreference, UserAuth])],
+  imports: [TypeOrmModule.forFeature([User, UserProfile, UserPreference, UserAuth]), LoggingModule],
   providers: [UsersService],
   controllers: [UsersController]
 })

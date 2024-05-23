@@ -8,8 +8,9 @@ import { CachingModule } from './common/caching/caching.module';
 import { ConfigurationService } from './common/config/config.service';
 import { ConfigService } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
+import { LoggingModule } from './common/logging/logging.module';
 @Module({
-  imports: [CachingModule, ConfigurationModule, DatabaseModule, UsersModule],
+  imports: [CachingModule, ConfigurationModule, LoggingModule, DatabaseModule, UsersModule],
   controllers: [AppController],
   providers: [AppService, ConfigurationService, ConfigService, CacheService],
 })

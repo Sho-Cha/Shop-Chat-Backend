@@ -20,7 +20,7 @@ import { DataSource } from "typeorm";
                 database: config.get('DB_DATABASE'),
                 synchronize: false,
                 logging: false,
-                entities: [__dirname + '/../**/*.entity.{ts,js}'],
+                entities: [__dirname + '/../**/*.entity{.ts,.js}'],
                 migrations: [__dirname + '/../**/*.migration{.ts}']
             }),
             dataSourceFactory: async (options) => await new DataSource(options).initialize()

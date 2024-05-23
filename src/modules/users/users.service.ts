@@ -8,6 +8,8 @@ import { UserProfile } from 'src/database/entities/user-profile.entity';
 import { UserPreference } from 'src/database/entities/user-preference.entity';
 import { UserAuth } from 'src/database/entities/user-auth.entity';
 import * as bcrypt from 'bcrypt';
+import { CommonResponse } from 'src/common/utils/common.response.types';
+import { LoggingService } from 'src/common/logging/loggging.service';
 
 @Injectable()
 export class UsersService {
@@ -16,9 +18,15 @@ export class UsersService {
         @InjectRepository(UserProfile) private userProfilesRepository: Repository<UserProfile>,
         @InjectRepository(UserPreference) private userPreferencesRepository: Repository<UserPreference>,
         @InjectRepository(UserAuth) private userAuthRepository: Repository<UserAuth>,
+        private log: LoggingService
     ) { }
 
-    async create(createUserDto: CreateUserDto): Promise<User> {
+    /*
+     * To create a new user using these create user function.
+     * @param {createUserDto} - having all of the user input data.
+     * @returns {} 
+      */
+    async createUser(createUserDto: CreateUserDto): Promise<CommonResponse> {
         const { username, email, password, firstName, lastName, dateOfBirth, gender, phoneNumber, address, biography, interests, language, timeZone, termsAccepted, newsletterSubscription } = createUserDto;
 
         const salt = await bcrypt.genSalt();
@@ -48,7 +56,14 @@ export class UsersService {
                 passwordSalt: salt,
             }),
         });
+        console.log("🚀 ~ UsersService ~ createUser ~ user:", user)
 
-        return this.usersRepository.save(user);
+        const userSavedResponse = await this.usersRepository.save(user);
+        console.log(userSavedResponse);
+        return {
+            isOk: true,
+            message: "User registered successfully.",
+            // userId: userSavedResponse?._id
+        }
     }
 }
