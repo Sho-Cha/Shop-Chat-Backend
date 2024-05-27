@@ -1,39 +1,46 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
-import { User } from './user.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+  BaseEntity,
+} from 'typeorm';
+import User from './user.entity';
 
-@Entity()
-export class UserProfile {
-    @PrimaryGeneratedColumn('uuid')
-    userProfileId: string;
+@Entity({ name: 'user_profiles' })
+export default class UserProfile extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  _id: string;
 
-    @OneToOne(() => User, user => user.userProfile)
-    @JoinColumn()
-    user: User;
+  @OneToOne(() => User, { cascade: true })
+  @JoinColumn({ name: 'user_id', referencedColumnName: '_id' })
+  user_id: User;
 
-    @Column({ nullable: true })
-    firstName: string;
+  @Column({ type: String, nullable: true, name: 'first_name' })
+  firstName: string;
 
-    @Column({ nullable: true })
-    lastName: string;
+  @Column({ type: String, nullable: true, name: 'last_name' })
+  lastName: string;
 
-    @Column({ type: 'date', nullable: true })
-    dateOfBirth: string;
+  @Column({ type: 'date', nullable: true, name: 'date_of_birth' })
+  dateOfBirth: string;
 
-    @Column({ nullable: true })
-    gender: string;
+  @Column({ type: String, nullable: true, name: 'gender' })
+  gender: string;
 
-    @Column({ nullable: true })
-    phoneNumber: string;
+  @Column({ type: String, nullable: true, name: 'phone_number' })
+  phoneNumber: string;
 
-    @Column({ nullable: true })
-    address: string;
+  @Column({ type: String, nullable: true, name: 'address' })
+  address: string;
 
-    @Column({ type: 'bytea', nullable: true })
-    profilePicture: Buffer;
+  @Column({ type: 'bytea', nullable: true, name: 'profile_picture' })
+  profilePicture: Buffer;
 
-    @Column({ nullable: true })
-    biography: string;
+  @Column({ type: String, nullable: true, name: 'biography' })
+  biography: string;
 
-    @Column({ nullable: true })
-    interests: string;
+  @Column({ type: String, nullable: true, name: 'interests' })
+  interests: string;
 }

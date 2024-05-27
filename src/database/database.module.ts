@@ -3,8 +3,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigurationModule } from "src/common/config/config.module";
 import { ConfigurationService } from "src/common/config/config.service";
 import { DataSource } from "typeorm";
-
-
 @Module({
     imports: [
         /* For Application connection we are intializing the module in the app.module file and passing the below data base connection..*/
@@ -20,8 +18,12 @@ import { DataSource } from "typeorm";
                 database: config.get('DB_DATABASE'),
                 synchronize: false,
                 logging: false,
-                entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-                migrations: [__dirname + '/../**/*.migration{.ts}']
+                entities: [
+                    __dirname + '/../**/*.entity.{ts,js}'
+                ],
+                migrations: [
+                    __dirname + '/../**/*.migration{.ts}'
+                ]
             }),
             dataSourceFactory: async (options) => await new DataSource(options).initialize()
         })

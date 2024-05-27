@@ -1,37 +1,47 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
-import { UserProfile } from './user-profile.entity';
-import { UserPreference } from './user-preference.entity';
-import { UserAuth } from './user-auth.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+  BaseEntity,
+} from 'typeorm';
+import UserAuth from './user-auth.entity';
+import UserProfile from './user-profile.entity';
+import UserPreference from './user-preference.entity';
 
-@Entity()
-export class User {
-    @PrimaryGeneratedColumn('uuid')
-    userId: string;
+@Entity({ name: 'users' })
+export default class User extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  _id?: string;
 
-    @Column({ unique: true })
-    username: string;
+  @Column({ type: String, unique: true, name: 'username' })
+  username: string;
 
-    @Column({ unique: true })
-    email: string;
+  @Column({ type: String, unique: true, name: 'email' })
+  email: string;
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @CreateDateColumn({ type: Date, nullable: true, name: 'created_at' })
+  createdAt: Date;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @UpdateDateColumn({ type: Date, nullable: true, name: 'updated_at' })
+  updatedAt: Date;
 
-    @Column({ nullable: true })
-    lastLogin: Date;
+  @Column({ type: Date, nullable: true, name: 'last_login' })
+  lastLogin: Date;
 
-    @Column({ default: true })
-    isActive: boolean;
+  @Column({ type: Boolean, default: true, name: 'is_active' })
+  isActive: boolean;
 
-    @OneToOne(() => UserProfile, userProfile => userProfile.user, { cascade: true })
-    userProfile: UserProfile;
+  @OneToOne(() => UserAuth, { cascade: true })
+  userAuth: UserAuth;
 
-    @OneToOne(() => UserPreference, userPreference => userPreference.user, { cascade: true })
-    userPreference: UserPreference;
+  @OneToOne(() => UserProfile, {
+    cascade: true,
+  })
+  userProfile: UserProfile;
 
-    @OneToOne(() => UserAuth, userAuth => userAuth.user, { cascade: true })
-    userAuth: UserAuth;
+  @OneToOne(() => UserPreference, { cascade: true })
+  userPreference: UserPreference;
 }

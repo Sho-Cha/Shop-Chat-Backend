@@ -9,7 +9,7 @@ export class CreateUsersTable1716346870512 implements MigrationInterface {
             `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
             CREATE TABLE users (
-            user_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+            _id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
             username VARCHAR(50) NOT NULL UNIQUE,
             email VARCHAR(100) NOT NULL UNIQUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

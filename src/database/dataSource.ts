@@ -7,7 +7,7 @@ export const dataBaseSource = new DataSource({
     port: 5432,
     username: "postgres",
     password: "1234",
-    database: "postgres",
+    database: "shop-chat",
     logging: false,
     synchronize: false,
     entities: ['dist/**/*.entity.js'],

@@ -1,21 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, CreateDateColumn } from 'typeorm';
-import { User } from './user.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, CreateDateColumn, BaseEntity } from 'typeorm';
+import User from './user.entity';
 
-@Entity()
-export class UserAuth {
+@Entity({name: "user_passwords"})
+export default class UserAuth extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
-    userAuthId: string;
+    _id?: string;
 
-    @OneToOne(() => User, user => user.userAuth)
-    @JoinColumn()
-    user: User;
+    @OneToOne(() => User, {cascade: true})
+    @JoinColumn({name: "user_id", referencedColumnName: "_id" })
+    user_id: User;
 
-    @Column()
+    @Column({ type: String, name: 'password_hash' })
     passwordHash: string;
 
-    @Column()
+    @Column({ type: String, nullable: true, name: 'password_salt' })
     passwordSalt: string;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ type: String, nullable: true, name: 'password_last_updated' })
     passwordLastUpdated: Date;
 }
